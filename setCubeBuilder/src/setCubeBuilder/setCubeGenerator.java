@@ -1,6 +1,10 @@
 package setCubeBuilder;
 
 import java.net.HttpURLConnection;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.IOException;
 import java.net.URL;
 import java.util.Scanner;
 import org.json.simple.JSONArray;
@@ -13,31 +17,33 @@ public class setCubeGenerator {
 		// TODO Auto-generated constructor stub
 	}
 	public static void main(String[] args) {
-		
-		fetch("DOM", "M");
-		fetch("DOM", "R");
-		fetch("DOM", "U");
-		fetch("DOM", "C");
+		try 
+		{
+			FileWriter writer = new FileWriter("MyFile.txt");
+			fetch("DOM", "M");
+			fetch("DOM", "R");
+			fetch("DOM", "U");
+			fetch("DOM", "C");
+			
+			//this will probably cause weird errors
+			writer.close();
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	private static void fetch(String set, String rarity) {
 		// TODO Auto-generated method stub
 		
 		String inline = "";
-		
 		try 
 		{
 			
 			String website = "https://api.scryfall.com/cards/search?order=set&q=set%3A" + set + 
 					"+rarity%3A" + rarity + "+not%3Apwdeck";
-			//String website = start + set + middle + rarity + end;
-			
-			//System.out.println(old_website);
-			System.out.println(website);
 			
 			URL url = new URL(website);
-			
-			//URL url = new URL("https://api.scryfall.com/cards/search?order=set&q=set%3ADOM+rarity%3Am+not%3Apwdeck");
 			HttpURLConnection conn = (HttpURLConnection)url.openConnection(); 
 			conn.setRequestMethod("GET");
 			conn.connect(); 
@@ -71,15 +77,27 @@ public class setCubeGenerator {
 			//Get data for Results array
 			//System.out.println(jsonarr_1.size());
 			
+			
+			FileWriter writer = new FileWriter("MyFile.txt", true);
+			BufferedWriter bufferedWriter = new BufferedWriter(writer);
+			
 			System.out.println("total cards " + jsonarr_1.size());
+			
+			bufferedWriter.newLine();
+			bufferedWriter.write("\ntotal cards " + jsonarr_1.size());
+			bufferedWriter.newLine();
+			
 			for (int i=0; i<jsonarr_1.size(); i++)
 			{
 				JSONObject jsonobj_1 = (JSONObject)jsonarr_1.get(i);
+				bufferedWriter.newLine();
+				bufferedWriter.write((String)jsonobj_1.get("name"));
 				System.out.println(jsonobj_1.get("name"));
-
 			}
 			
 			conn.disconnect();
+			bufferedWriter.close();
+			writer.close();
 
 		}
 		
