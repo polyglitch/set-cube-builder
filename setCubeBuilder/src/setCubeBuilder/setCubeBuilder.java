@@ -11,19 +11,16 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
-public class setCubeGenerator {
-
-	public setCubeGenerator() {
-		// TODO Auto-generated constructor stub
-	}
-	public static void main(String[] args) {
+public class setCubeBuilder {
+	public setCubeBuilder(String filename, String set, int mythics, int rares, int uncommons, int commons)
+	{
 		try 
 		{
-			FileWriter writer = new FileWriter("MyFile.txt");
-			fetch("DOM", "M");
-			fetch("DOM", "R");
-			fetch("DOM", "U");
-			fetch("DOM", "C");
+			FileWriter writer = new FileWriter(filename);
+			fetch(filename, set, "M");
+			fetch(filename, set, "R");
+			fetch(filename, set, "U");
+			fetch(filename, set, "C");
 			
 			//this will probably cause weird errors
 			writer.close();
@@ -31,9 +28,10 @@ public class setCubeGenerator {
 		catch (IOException e) {
 			e.printStackTrace();
 		}
+		
 	}
 
-	private static void fetch(String set, String rarity) {
+	private static void fetch(String filename, String set, String rarity) {
 		// TODO Auto-generated method stub
 		
 		String inline = "";
