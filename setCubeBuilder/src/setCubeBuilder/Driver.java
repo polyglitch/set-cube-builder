@@ -1,11 +1,12 @@
 package setCubeBuilder;
-public class driver {
-
+public class Driver {
+	/*
 	public static void main(String[] args) {
 		String filename = "cards.txt";
 		String set = "DOM";
-		setCubeBuilder setList = new setCubeBuilder(filename,set,1,1,2,4);
+		SetCubeBuilder setList = new SetCubeBuilder(filename,set,1,1,2,4);
 
 	}
+	*/
 
 }
