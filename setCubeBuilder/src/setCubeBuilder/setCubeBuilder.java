@@ -12,43 +12,62 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
 public class setCubeBuilder {
+	
+	//pass the name of the text file, the three letter set code, and the amount of
+	//each rarity of card desired
 	public setCubeBuilder(String filename, String set, int mythics, int rares, int uncommons, int commons)
 	{
 		try 
 		{
+			//open a file to delete what is currently in it
+			//and write the header to the file
 			FileWriter writer = new FileWriter(filename);
-			fetch(filename, set, "M");
-			fetch(filename, set, "R");
-			fetch(filename, set, "U");
-			fetch(filename, set, "C");
+			writer.write("Card List \r\n");
+			writer.write("\r\n");
 			
-			//this will probably cause weird errors
+			//close the connection
 			writer.close();
+			
+			//call fetch with each rarity and the amount of cards needed for each rarity
+			//and the filename
+			fetch(filename, set, mythics, "M");
+			fetch(filename, set, rares, "R");
+			fetch(filename, set, uncommons, "U");
+			fetch(filename, set, commons, "C");
+			
 		}
 		catch (IOException e) {
 			e.printStackTrace();
 		}
 		
 	}
-
-	private static void fetch(String filename, String set, String rarity) {
-		// TODO Auto-generated method stub
+	
+	//fetch data from a json file and print the card list to a specified text document
+	//take the filename for the text file, the three letter setcode,
+	//the amount of each rarity, and the letter for the rarity
+	//return nothing, but print the results to the specified text document
+	private void fetch(String filename, String set, int amount, String rarity) {
 		
 		String inline = "";
 		try 
 		{
-			
+			//Combine the strings and part of the api call to generate the full api call
 			String website = "https://api.scryfall.com/cards/search?order=set&q=set%3A" + set + 
-					"+rarity%3A" + rarity + "+not%3Apwdeck";
+					"+rarity%3A" + rarity + "+not%3Apwdeck+-t%3Abasic";
+			//System.out.println(website);
 			
+			//connect to the URL to fetch the JSON from a REST API
 			URL url = new URL(website);
 			HttpURLConnection conn = (HttpURLConnection)url.openConnection(); 
 			conn.setRequestMethod("GET");
 			conn.connect(); 
 			
+			//test to see if we are able to connect
 			int responsecode = conn.getResponseCode();
 			System.out.println("Response code is: " +responsecode);
 			
+			//if we fail to connect throw an error or the JSON is read in incorrectly
+			//throw an error
 			if(responsecode != 200)
 				throw new RuntimeException("HttpResponseCode: " +responsecode);
 			else
@@ -64,41 +83,74 @@ public class setCubeBuilder {
 			}
 			
 			
-			System.out.println();
 			//JSONParser reads the data from string object and break each data into key value pairs
 			JSONParser parse = new JSONParser();
-			//Type caste the parsed json data in json object
+			//Type cast the parsed JSON data in JSON object
 			JSONObject jobj = (JSONObject)parse.parse(inline);
 			
 			//Store the JSON object in JSON array as objects (For level 1 array element i.e Results)
 			JSONArray jsonarr_1 = (JSONArray) jobj.get("data");
-			//Get data for Results array
-			//System.out.println(jsonarr_1.size());
 			
-			
-			FileWriter writer = new FileWriter("MyFile.txt", true);
+			//open the file that we will write to
+			FileWriter writer = new FileWriter(filename, true);
 			BufferedWriter bufferedWriter = new BufferedWriter(writer);
 			
-			System.out.println("total cards " + jsonarr_1.size());
+			//print the number of each rarity before we print out the list of cards
+			int total = jsonarr_1.size()*amount;
+			bufferedWriter.write(String.valueOf(total));
 			
-			bufferedWriter.newLine();
-			bufferedWriter.write("\ntotal cards " + jsonarr_1.size());
-			bufferedWriter.newLine();
+			//choose between which rarity to write after the amount
+			switch (rarity)
+			{
+			case "M":
+				bufferedWriter.write(" Mythics");
+				break;
+			case "R":
+				bufferedWriter.write(" Rares");
+				break;
+			case "U":
+				bufferedWriter.write(" Uncommons");
+				break;
+			case "C":
+				bufferedWriter.write(" Commons");
+				break;
+			}
+			/*
+			if (rarity == "M")
+			else if (rarity == "R")
+				bufferedWriter.write(" Rares");
+			else if (rarity == "U")
+				bufferedWriter.write(" Uncommons");
+			else if (rarity == "C")
+				bufferedWriter.write(" Commons");
+				*/
 			
+			//look through the relevant portion of the json while
+			//printing all of the cards and the amount of each of them
 			for (int i=0; i<jsonarr_1.size(); i++)
 			{
+				//fetch the card name
 				JSONObject jsonobj_1 = (JSONObject)jsonarr_1.get(i);
 				bufferedWriter.newLine();
+				//print the amount needed
+				bufferedWriter.write(String.valueOf(amount));
+				bufferedWriter.write(" ");
+				//print the name of the card
 				bufferedWriter.write((String)jsonobj_1.get("name"));
-				System.out.println(jsonobj_1.get("name"));
 			}
 			
+			//space out the different rarities
+			bufferedWriter.newLine();
+			bufferedWriter.write("\n");
+			
+			//disconnect the connection to the rest API and to the the file
 			conn.disconnect();
 			bufferedWriter.close();
 			writer.close();
 
 		}
 		
+		//if we hit an error print it out
 		catch(Exception e)
 		{
 			e.printStackTrace();
