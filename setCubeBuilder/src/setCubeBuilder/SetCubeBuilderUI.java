@@ -1,11 +1,14 @@
 package setCubeBuilder;
 
-public class ContactEditorUI extends javax.swing.JFrame {
+
+//this code is generated from the NetBeans GUI Builder
+//the only code that I have changed is under SubmitActionPerformed
+public class SetCubeBuilderUI extends javax.swing.JFrame {
 
     /**
      * Creates new form ContactEditorUI
      */
-    public ContactEditorUI() {
+    public SetCubeBuilderUI() {
         initComponents();
     }
 
@@ -31,7 +34,7 @@ public class ContactEditorUI extends javax.swing.JFrame {
         numUncommonsField = new javax.swing.JTextField();
         numCommonsField = new javax.swing.JTextField();
         filenameField = new javax.swing.JTextField();
-        Submit = new javax.swing.JButton();
+        submit = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Set Cube Builder");
@@ -175,9 +178,9 @@ public class ContactEditorUI extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        Submit.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
-        Submit.setText("Submit");
-        Submit.addActionListener(new java.awt.event.ActionListener() {
+        submit.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
+        submit.setText("Submit");
+        submit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 SubmitActionPerformed(evt);
             }
@@ -191,7 +194,7 @@ public class ContactEditorUI extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(Submit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(submit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -200,7 +203,7 @@ public class ContactEditorUI extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(Submit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(submit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -228,6 +231,25 @@ public class ContactEditorUI extends javax.swing.JFrame {
     }                                             
 
     private void SubmitActionPerformed(java.awt.event.ActionEvent evt) {                                       
+    	
+    	//fetch the filename and setcode from the text fields
+    	String filename = filenameField.getText();
+    	String set = setCodeField.getText();
+    	
+    	//fetch the number of the different rarities from their fields and 
+    	//parse them to ints for the setcubebuilder class
+    	String temp = numMythicsField.getText();
+    	int mythics = Integer.parseInt(temp);
+    	temp = numRaresField.getText();
+    	int rares = Integer.parseInt(temp);
+    	temp = numUncommonsField.getText();
+    	int uncommons = Integer.parseInt(temp);
+    	temp = numCommonsField.getText();
+    	int commons = Integer.parseInt(temp);
+    	
+		SetCubeBuilder setList = new SetCubeBuilder(filename,set,mythics,rares,uncommons,commons); 
+    	
+		submit.setText("Finished");
     }                                      
 
     /**
@@ -248,26 +270,26 @@ public class ContactEditorUI extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ContactEditorUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SetCubeBuilderUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ContactEditorUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SetCubeBuilderUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ContactEditorUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SetCubeBuilderUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ContactEditorUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SetCubeBuilderUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ContactEditorUI().setVisible(true);
+                new SetCubeBuilderUI().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify                     
-    private javax.swing.JButton Submit;
+    private javax.swing.JButton submit;
     private javax.swing.JLabel filename;
     private javax.swing.JTextField filenameField;
     private javax.swing.JPanel jPanel1;
