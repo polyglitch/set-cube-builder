@@ -11,11 +11,11 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
-public class setCubeBuilder {
+public class SetCubeBuilder {
 	
 	//pass the name of the text file, the three letter set code, and the amount of
 	//each rarity of card desired
-	public setCubeBuilder(String filename, String set, int mythics, int rares, int uncommons, int commons)
+	public SetCubeBuilder(String filename, String set, int mythics, int rares, int uncommons, int commons)
 	{
 		try 
 		{
